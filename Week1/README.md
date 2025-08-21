@@ -13,7 +13,7 @@ By the end of Week 1, I should be able to:
 - Understand basic terminologies for serial manipulators
 
 ## Lecture Highlights
-- **Definition of a Robot**: An automatically operated machine that replaces human effort (Britannica).  
+- **Definition of a Robot**: any automatically operated machine that replaces human effort, though it may not resemble human beings in appearance or perform functions in a humanlike manner. (Britannica).  
 - **Asimov’s Three Laws**: Safety, obedience, self-preservation.  
 - Robotics is a rapidly growing field with applications in aerospace, healthcare, defense, industry, and more.
 
