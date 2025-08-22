@@ -40,7 +40,7 @@ By the end of Week 1, I should be able to:
 - **Manipulator**: Links + joints + actuators, fixed base + end-effector.  
 - **Workspace**: Volume reachable by the end-effector.  
 - **Degrees of Freedom (DoF)**: Independent joints; ≥6 DoFs needed for full 3D manipulation.  
-- **Joint Types**:  
+- **Joint Types**:   
   - Revolute (R, θ) → rotational  
   - Prismatic (P, d) → linear  
 - **Manipulator Types**: Cartesian/Gantry, Collaborative, Cylindrical, Spherical, SCARA, Articulated, Parallel, Anthropomorphic.
