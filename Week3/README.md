@@ -20,11 +20,9 @@ This week, we will delve into the application of compound transformations common
 ---
 
 ## Lecture Content
-
+📂 [Lecture 3 PDF](Lecture-3-RBE-500-1.pdf)
 
 ---
 
 ## Lab / Assignment
-![Week 3 Lab](8da5c4f6-2264-457e-96a7-4315e0ea56f6.png)
-
-💻 [Robot Lab 3](Lecture-3-RBE-500-1.pdf)  <!-- or replace with actual lab file if different -->
+matlab for Calculate compound transformations . Lab for play with ros2 humble
