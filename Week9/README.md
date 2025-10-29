@@ -12,4 +12,29 @@ This week, we will delve into the fundamental concepts of linear and angular vel
 ![alt text](image-4.png)
 ![alt text](image-5.png)
 
+diff between before and now. 
+
+![alt text](image-6.png)
+in the past we studied FK IK for caculate the position of end effector. 
+
+![alt text](image-7.png)
+now we are learning how to control the rate/velocity of the end effector.
+
+
+
+![alt text](image-8.png)
+This expresses how to change the reference frame for a Jacobian.
+![alt text](image-9.png)
+![alt text](image-10.png)
+![alt text](image-11.png)
+
+
+
+
+![alt text](image-12.png)
+Robotics
+Jacobian not invertible
+Velocity control impossible in some directions
+![alt text](image-13.png)
+
 
