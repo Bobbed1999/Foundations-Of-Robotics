@@ -12,7 +12,4 @@ Program a complete real-world robotic system with ROS2
 Choose and utilize sensors and actuators for a given robot configuration and task
 Implement kinematic models, control and perception algorithms in robotic simulators
 
-# Week 1 – Course Introduction, Robots & Terminologies
-# Sensors and Actuators, Matrices and Vectors, Cartesian Coordinate Systems, Frames and Mapping
-# Compound Transformations, Properties and Representations of Orientation
-# Introduction to Forward Kinematics (FK) using Denavit–Hartenberg (DH) parameters
+![alt text](course_sllbaus.png)
