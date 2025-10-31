@@ -1,0 +1,402 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="car_world">
+    <!-- Physics & core systems -->
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.002</max_step_size>
+      <real_time_factor>5.0</real_time_factor>
+    </physics>
+    <plugin filename="ignition-gazebo-physics-system"
+            name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-user-commands-system"
+            name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system"
+            name="ignition::gazebo::systems::SceneBroadcaster"/>
+
+    <!-- Sun -->
+    <light type="directional" name="sun">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Ground -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.2 0.2 0.2 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ================= PUMA560 ================= -->
+    <model name="puma560" canonical_link="link1">
+      <static>false</static>
+      <!-- place the base in world -->
+      <pose>0 0 0 0 0 0</pose>
+      
+
+      <!-- link1 (base) -->
+      <link name="link1">
+        <inertial>
+          <mass>100.0</mass>
+          <inertia>
+            <ixx>1.0</ixx><iyy>1.0</iyy><izz>1.0</izz>
+            <ixy>0.0</ixy><ixz>0.0</ixz><iyz>0.0</iyz>
+          </inertia>
+        </inertial>
+        <visual name="v_link1">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link1.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <!-- URDF visual origin -->
+          <pose>0 0 0 0 0 1.570796325</pose>
+          <material>
+            <ambient>0 0.8 0 1</ambient>
+          </material>
+        </visual>
+        <collision name="c_link1">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link1.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 0 0 0 1.570796325</pose>
+        </collision>
+      </link>
+
+      <!-- link2 -->
+      <link name="link2">
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>1.0</ixx><iyy>1.0</iyy><izz>1.0</izz>
+            <ixy>0.0</ixy><ixz>0.0</ixz><iyz>0.0</iyz>
+          </inertia>
+        </inertial>
+
+        <pose relative_to="link1">0 0 0.6718 1.570796325 0 0</pose>
+
+        <visual name="v_link2">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link2.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <!-- URDF visual origin xyz="0 0 -0.1" -->
+          <pose>0 0 -0.1 0 0 0</pose>
+          <material>
+            <ambient>0.8 0 0 1</ambient>
+          </material>
+        </visual>
+        <collision name="c_link2">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link2.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 -0.1 0 0 0</pose>
+        </collision>
+      </link>
+
+      <!-- j1: link1 -> link2 (URDF origin xyz=0 0 0.6718 rpy=1.5708 0 0), axis (0 1 0) -->
+      <joint name="j1" type="revolute">
+        <parent>link1</parent>
+        <child>link2</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-3.14159265</lower>
+            <upper>3.14159265</upper>
+            <velocity>2.0</velocity>
+            <effort>1000.0</effort>
+          </limit>
+        </axis>
+      </joint>
+
+      <!-- ===== link3 ===== -->
+      <link name="link3">
+        <inertial>
+            <mass>0.1</mass>
+            <inertia>
+            <ixx>1.0</ixx><iyy>1.0</iyy><izz>1.0</izz>
+            <ixy>0.0</ixy><ixz>0.0</ixz><iyz>0.0</iyz>
+            </inertia>
+        </inertial>
+
+        <!-- The coordinate system of link3 coincides with that of link2 (URDF: j2 origin is 0) -->
+        <pose relative_to="link2">0 0 0 0 0 0</pose>
+
+        <!-- The mesh for both vision and collision maintains the mesh offset in the URDF: z = 0.1936 -->
+        <visual name="v_link3">
+            <geometry>
+            <mesh>
+                <uri>package://puma560_description/meshes/puma_link3.stl</uri>
+                <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+            </geometry>
+            <pose>0 0 0.1936 0 0 0</pose>
+            <material><ambient>0 0 0.8 1</ambient></material>
+        </visual>
+
+        <collision name="c_link3">
+            <geometry>
+            <mesh>
+                <uri>package://puma560_description/meshes/puma_link3.stl</uri>
+                <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+            </geometry>
+            <pose>0 0 0.1936 0 0 0</pose>
+        </collision>
+        </link>
+
+      <!-- ===== j2: link2 -> link3 ===== -->
+      <joint name="j2" type="revolute">
+        <parent>link2</parent>
+        <child>link3</child>
+        <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+            <lower>-1.570796325</lower>
+            <upper> 1.570796325</upper>
+            <velocity>2.0</velocity>
+            <effort>1000.0</effort>
+            </limit>
+        </axis>
+      </joint>
+
+
+      <!-- link4: place it relative to link3 using the URDF j3 origin -->
+      <link name="link4">
+        <inertial>
+            <mass>0.1</mass>
+            <inertia>
+            <ixx>1.0</ixx><iyy>1.0</iyy><izz>1.0</izz>
+            <ixy>0.0</ixy><ixz>0.0</ixz><iyz>0.0</iyz>
+            </inertia>
+        </inertial>
+
+        <!-- This is the critical line: child link pose relative to its parent -->
+        <pose relative_to="link3">0.4318 -0.0203 0.1501 0 0 -1.570796325</pose>
+
+        <visual name="v_link4">
+            <geometry>
+            <mesh>
+                <uri>package://puma560_description/meshes/puma_link4.stl</uri>
+                <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+            </geometry>
+            <!-- link4's mesh has no extra offset in URDF, so no visual <pose> needed -->
+            <material><ambient>0 0.8 0 1</ambient></material>
+        </visual>
+
+        <collision name="c_link4">
+            <geometry>
+            <mesh>
+                <uri>package://puma560_description/meshes/puma_link4.stl</uri>
+                <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+            </geometry>
+        </collision>
+        </link>
+
+      <!-- j3: keep pose identity; just defines connectivity & axis -->
+      <joint name="j3" type="revolute">
+        <parent>link3</parent>
+        <child>link4</child>
+        <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+            <lower>-1.570796325</lower>
+            <upper>1.570796325</upper>
+            <velocity>2.0</velocity>
+            <effort>1000.0</effort>
+            </limit>
+        </axis>
+      </joint>
+
+
+      <!-- link5 -->
+      <link name="link5">
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>1.0</ixx><iyy>1.0</iyy><izz>1.0</izz>
+            <ixy>0.0</ixy><ixz>0.0</ixz><iyz>0.0</iyz>
+          </inertia>
+        </inertial>
+        <pose relative_to="link4">0 0 0 1.570796325 0 1.570796325</pose>
+        <visual name="v_link5">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link5.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 0.3621 0 0 1.570796325</pose>
+          <material>
+            <ambient>0.8 0 0 1</ambient>
+          </material>
+        </visual>
+        <collision name="c_link5">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link5.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 0.3621 0 0 1.570796325</pose>
+        </collision>
+      </link>
+
+      <!-- j4: link4 -> link5 (URDF origin xyz=0 0 0 rpy=1.5708 0 1.5708), axis (0 0 1) -->
+      <joint name="j4" type="revolute">
+        <parent>link4</parent>
+        <child>link5</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1.570796325</lower>
+            <upper>1.570796325</upper>
+            <velocity>2.0</velocity>
+            <effort>1000.0</effort>
+          </limit>
+        </axis>
+      </joint>
+
+      <!-- link6 -->
+      <link name="link6">
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>1.0</ixx><iyy>1.0</iyy><izz>1.0</izz>
+            <ixy>0.0</ixy><ixz>0.0</ixz><iyz>0.0</iyz>
+          </inertia>
+        </inertial>
+
+        <pose relative_to="link5">0 0 0.4331 1.570796325 0 0</pose>
+
+        <visual name="v_link6">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link6.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 0 3.14159265 0 1.570796325</pose>
+          <material>
+            <ambient>0 0.8 0 1</ambient>
+          </material>
+        </visual>
+        <collision name="c_link6">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link6.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 0 3.14159265 0 1.570796325</pose>
+        </collision>
+      </link>
+
+      <!-- j5: link5 -> link6 (URDF origin xyz=0 0 0.4331 rpy=1.5708 0 0), axis (0 0 1) -->
+      <joint name="j5" type="revolute">
+        <parent>link5</parent>
+        <child>link6</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1.570796325</lower>
+            <upper>1.570796325</upper>
+            <velocity>2.0</velocity>
+            <effort>1000.0</effort>
+          </limit>
+        </axis>
+      </joint>
+
+      <!-- link7 (tool) -->
+      <link name="link7">
+        <inertial>
+          <mass>0.1</mass>
+          <inertia>
+            <ixx>1.0</ixx><iyy>1.0</iyy><izz>1.0</izz>
+            <ixy>0.0</ixy><ixz>0.0</ixz><iyz>0.0</iyz>
+          </inertia>
+        </inertial>
+
+        <pose relative_to="link6">0 0.0558 0 -1.570796325 0 0</pose>
+
+        <visual name="v_link7">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link7.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 -0.01 0 0 0</pose>
+          <material>
+            <ambient>0 0 0.8 1</ambient>
+          </material>
+        </visual>
+        <collision name="c_link7">
+          <geometry>
+            <mesh>
+              <uri>package://puma560_description/meshes/puma_link7.stl</uri>
+              <scale>0.0254 0.0254 0.0254</scale>
+            </mesh>
+          </geometry>
+          <pose>0 0 -0.01 0 0 0</pose>
+        </collision>
+      </link>
+
+      <!-- j6: link6 -> link7 (URDF origin xyz=0 0.0558 0 rpy=-1.5708 0 0), axis (0 0 1) -->
+      <joint name="j6" type="revolute">
+        <parent>link6</parent>
+        <child>link7</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1.570796325</lower>
+            <upper>1.570796325</upper>
+            <velocity>2.0</velocity>
+            <effort>1000.0</effort>
+          </limit>
+        </axis>
+      </joint>
+    </model>
+    <!-- =============== end PUMA560 ================= -->
+  </world>
+</sdf>
