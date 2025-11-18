@@ -16,3 +16,4 @@ Choose and utilize sensors and actuators for a given robot configuration and tas
 Implement kinematic models, control and perception algorithms in robotic simulators
 
 ![alt text](course_sllbaus.png)
+
