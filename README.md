@@ -1,13 +1,7 @@
 # Foundations-Of-Robotics
 Course: Foundations Of Robotics
 
-<<<<<<< HEAD
-do not change 
 
-
-=======
-<video src="videos/moveit.webm" controls width="600"></video>
->>>>>>> a45dfc4 (1234)
 # Course Outcomes
 
 By the completion of this course, you will be able to:
