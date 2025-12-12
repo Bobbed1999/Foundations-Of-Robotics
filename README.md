@@ -13,5 +13,9 @@ Program a complete real-world robotic system with ROS2
 Choose and utilize sensors and actuators for a given robot configuration and task
 Implement kinematic models, control and perception algorithms in robotic simulators
 
+## key labs:
+<video src="videos/moveit.webm" controls width="600"></video>
+
+
 ![alt text](course_sllbaus.png)
 
