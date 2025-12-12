@@ -14,7 +14,10 @@ Choose and utilize sensors and actuators for a given robot configuration and tas
 Implement kinematic models, control and perception algorithms in robotic simulators
 
 ## key labs:
-<video src="videos/moveit.webm" controls width="600"></video>
+![MoveIt Demo](videos/moveit.gif)
+![Control Demo](videos/video.gif)
+![Pick & Place Demo](videos/part2_clip.gif)
+
 
 
 ![alt text](course_sllbaus.png)
